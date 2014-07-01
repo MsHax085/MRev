@@ -1,6 +1,10 @@
 package mrev.server.gameserver.components;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
+import mrev.server.database.DatabaseHandler;
 
 /**
  * The Gameserver_Logger class handle the temporary logging of each gameserver and
@@ -59,21 +63,21 @@ public class Gameserver_Logger {
     /**
      * This method writes data from the temporary gameserver log to the primary database.
      * @param port The server port.
-     * @param dbf A DatabaseFunctions reference.
+     * @param db The database reference
      */
-    /*public void writeTemporaryLogToDb(int port, DatabaseFunctions dbf) {
+    public void writeTemporaryLogToDb(int port, DatabaseHandler db) {
         
-        if (log.isEmpty()) {
+        if (temporaryLog.isEmpty()) {
             return;
         }
         
-        final LinkedList<String> list = (LinkedList) log.clone();
+        final LinkedList<String> list = (LinkedList) temporaryLog.clone();
         int lines = 0;
 
         for (String line : list) {
             
-            dbf.insertToServerLog(port, line);
-            log.remove(line);
+            insertToServerLog(port, line, db);
+            temporaryLog.remove(line);
             
             if (lines > 19) {
                 break;
@@ -81,7 +85,50 @@ public class Gameserver_Logger {
             
             lines++;
         }
-    }*/
+    }
+    
+    /**
+     * This method writes log data to the primary database and remove rows if the number of rows exceed 100.
+     * @param port The server port.
+     * @param text The data to be written.
+     * @param db The database reference.
+     * @return boolean If the operation was successfull.
+     */
+    private boolean insertToServerLog(int port, String text, DatabaseHandler db) {
+        
+        try {
+            
+            final PreparedStatement ps1 = db.getLogConnection().prepareStatement("INSERT INTO server_" + port + " (log_text) VALUES (?)");
+            final PreparedStatement ps2 = db.getLogConnection().prepareStatement("SELECT id FROM server_" + port + " WHERE id = (SELECT MAX(id) - 100 FROM server_" + port + ")");
+            final PreparedStatement ps3 = db.getLogConnection().prepareStatement("DELETE FROM server_" + port + " WHERE id < ?");
+            
+            ps1.setString(1, text);
+            ps1.executeUpdate();
+            ps1.close();
+            
+            final ResultSet rs = ps2.executeQuery();
+            
+            if (rs.next()) {
+                
+                final int row_id = rs.getInt("id");
+                
+                if (row_id > 0) {
+                    ps3.setInt(1, row_id);
+                    ps3.executeUpdate();
+                    ps3.close();
+                }
+                
+            }
+            
+            rs.close();
+            ps2.close();
+            
+        } catch (SQLException ex) {
+            System.out.println("Failed to insert  \"" + text + "\" to server log on port " + port + ": " + ex.getMessage());
+            return false;
+        }
+        return true;
+    }
     
     /**
      * This method adds a row to the temporary gameserver log.

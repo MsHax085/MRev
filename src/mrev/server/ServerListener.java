@@ -61,6 +61,8 @@ public class ServerListener extends ThreadClass implements Runnable {
      * 
      * In this thread the executeWhile method handle the command input from
      * the database and save gameserver data/log to the database log.
+     * 
+     * NOTE: Verify database connection!
      */
     @Override
     public void executeWhile() {
