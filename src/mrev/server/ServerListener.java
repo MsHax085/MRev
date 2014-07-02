@@ -66,7 +66,7 @@ public class ServerListener extends ThreadClass implements Runnable {
      */
     @Override
     public void executeWhile() {
-        
+        // On serverstart -> Add to list from this class
     }
     
     /**
@@ -74,10 +74,13 @@ public class ServerListener extends ThreadClass implements Runnable {
      * function, which is executed before the thread stops.
      * 
      * In this thread the executeAfter method save the remaining data of the temporary
-     * log storage to the database. This method also stop alive servers and set those to start on restart.
+     * log storage to the database. This method also stop alive servers, set those to start on restart and close the MySQL connection.
      */
     @Override
     public void executeAfter() {
+        
+        db.close();
+        
         System.out.println("The server listener has stopped!");
     }
 }

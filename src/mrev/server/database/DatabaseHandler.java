@@ -30,7 +30,7 @@ public class DatabaseHandler {
     // -------------------------------------------------------------------------
     
     /**
-     * This method opens a MySQL connection.
+     * This method opens the MySQL connection.
      */
     public void open() {
         
@@ -57,7 +57,7 @@ public class DatabaseHandler {
     }
     
     /**
-     * This method closes a MySQL connection.
+     * This method closes the MySQL connection.
      */
     public void close() {
         
