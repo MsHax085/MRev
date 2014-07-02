@@ -129,7 +129,7 @@ public class Server_Start {
      * @param port The server port
      * @throws SQLException 
      */
-    public void createLogTable(DatabaseHandler db, int port) throws SQLException {
+    private void createLogTable(DatabaseHandler db, int port) throws SQLException {
         
         final PreparedStatement ps = db.getLogConnection().prepareStatement("CREATE TABLE IF NOT EXISTS server_" + port + " (id int(11) NOT NULL AUTO_INCREMENT, log_text text NOT NULL, PRIMARY KEY (id))");
         ps.executeUpdate();
