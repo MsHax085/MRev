@@ -17,12 +17,12 @@ public class DatabaseHandler {
 
     // -------------------------------------------------------------------------
     
-    private final String HOST = "localhost";// mydb2.surf-town.net
+    private final String HOST = "localhost";
     private final String PORT = "3306";
-    private final String MAIN_DATABASE = "revision";// maharg_mcproj
-    private final String LOG_DATABASE = "revision_logs";// maharg_mcprojlogs
-    private final String USER = "root";// maharg_mcproj
-    private final String PASS = "1";// Banan12
+    private final String MAIN_DATABASE = "revision";
+    private final String LOG_DATABASE = "revision_logs";
+    private final String USER = "root";
+    private final String PASS = "1";
     
     private Connection main_conn = null;
     private Connection log_conn = null;
