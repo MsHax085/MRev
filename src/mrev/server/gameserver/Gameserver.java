@@ -1,5 +1,6 @@
 package mrev.server.gameserver;
 
+import mrev.Notifier;
 import mrev.server.gameserver.components.Gameserver_IoStream;
 import mrev.server.gameserver.components.Gameserver_Logger;
 import mrev.server.gameserver.components.Gameserver_Process;
@@ -70,15 +71,20 @@ public class Gameserver {
      * This method stops the server. When the server is first requested to stop
      * it's stopped by command. If the command fails to stop the server within 20 seconds the process
      * is then forced to be destroyed.
+     * @param port The Gameserver port
      */
-    public void sendStop() {
+    public void sendStop(int port) {
         
         if (stopped_timestamp == 0) {
             stream.send("stop");
             stopped_timestamp = System.currentTimeMillis();
             
+            Notifier.print("Server on port " + port + " was asked to stop!");
+            
         } else if (System.currentTimeMillis() - stopped_timestamp > (20 * 1000)) {// 20 Seconds
             process.destroy();
+            
+            Notifier.print("Server on port " + port + " was forced to stop!");
         }
     }
 }

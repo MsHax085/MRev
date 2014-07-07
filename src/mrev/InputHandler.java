@@ -54,8 +54,8 @@ public class InputHandler extends ThreadClass {
     @Override
     public void executeBefore() {
         
-        System.out.println(NAME + " [Version: " + VERSION + "]");
-        System.out.println("Waiting for commands ...");
+        Notifier.print(NAME + " [Version: " + VERSION + "]");
+        Notifier.print("Waiting for commands ...");
         
     }
     
@@ -81,7 +81,7 @@ public class InputHandler extends ThreadClass {
             
             case "START":
             {
-                System.out.println("Attempting to start server listener ...");
+                Notifier.print("Attempting to start server listener ...");
                 {
                     serverListener.startListening();
                 }
@@ -90,10 +90,10 @@ public class InputHandler extends ThreadClass {
             
             case "STOP":
             {
-                System.out.println("Attempting to stop server listener ...");
+                Notifier.print("Attempting to stop server listener ...");
                 {
                     if (serverListener.isStopped()) {
-                        System.out.println("The server listener is already stopped!");
+                        Notifier.print("The server listener is already stopped!");
                         break;
                     }
                     
@@ -104,10 +104,10 @@ public class InputHandler extends ThreadClass {
             
             case "EXIT":
             {
-                System.out.println("Attempting to exit application ...");
+                Notifier.print("Attempting to exit application ...");
                 {
                     if (!serverListener.isStopped()) {
-                        System.out.println("The server listener must be stopped before exiting!");
+                        Notifier.print("The server listener must be stopped before exiting!");
                         break;
                     }
                     
@@ -118,15 +118,15 @@ public class InputHandler extends ThreadClass {
             
             case "HELP":
             {
-                System.out.println("Available commands:");
-                System.out.println("START - Start servers");
-                System.out.println("STOP  - Stop servers");
-                System.out.println("EXIT  - Exit application");
+                Notifier.print("Available commands:");
+                Notifier.print("START - Start servers");
+                Notifier.print("STOP  - Stop servers");
+                Notifier.print("EXIT  - Exit application");
                 break;
             }
             default:
             {
-                System.out.println("Could not recognize command: " + input);
+                Notifier.print("Could not recognize command: " + input);
                 break;
             }
         }
@@ -143,10 +143,10 @@ public class InputHandler extends ThreadClass {
     public void executeAfter() {
         
         if (!serverListener.isStopped()) {
-            System.out.println("Stopping running server listener ...");
+            Notifier.print("Stopping running server listener ...");
             serverListener.stop();
         }
         
-        System.out.println("Application has stopped!");
+        Notifier.print("Application has stopped!");
     }
 }

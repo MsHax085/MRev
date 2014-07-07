@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import mrev.Notifier;
 import mrev.server.database.DatabaseHandler;
 
 /**
@@ -124,7 +125,7 @@ public class Gameserver_Logger {
             ps2.close();
             
         } catch (SQLException ex) {
-            System.out.println("Failed to insert  \"" + text + "\" to server log on port " + port + ": " + ex.getMessage());
+            Notifier.print("Failed to insert  \"" + text + "\" to server log on port " + port + ": " + ex.getMessage());
             return false;
         }
         return true;
@@ -141,13 +142,5 @@ public class Gameserver_Logger {
         if (temporaryLog.size() > 100) {// In case of database failure, no need to save over 100 rows
             temporaryLog.poll();
         }
-    }
-    
-    /**
-     * This method removes a row from the temporary gameserver log.
-     * @param row The row to be removed.
-     */
-    public void removeFromTemporary(String row) {
-        temporaryLog.remove(row);
     }
 }

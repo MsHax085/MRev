@@ -80,4 +80,22 @@ public class Gameserver_IoStream {
         
         return true;
     }
+    
+    /**
+     * This method close the readers
+     * @return If the readers successfully close
+     */
+    public boolean close() {
+        
+        try {
+            
+            reader.close();
+            writer.close();
+            
+        } catch (IOException ex) {
+            return false;
+        }
+        
+        return true;
+    }
 }

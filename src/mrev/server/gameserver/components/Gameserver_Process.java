@@ -2,6 +2,7 @@ package mrev.server.gameserver.components;
 
 import java.io.File;
 import java.io.IOException;
+import mrev.Notifier;
 
 /**
  * The Gameserver_Process class handle the gameserver process.
@@ -47,7 +48,7 @@ public class Gameserver_Process {
             pbuilder = new ProcessBuilder("java", "-Xmx" + memory + "M", "-jar", path.getAbsolutePath() + File.separator + "mc.jar", "-o", "true", "-nojline");
 
         } else {
-            pbuilder = new ProcessBuilder("java", "-Xmx" + memory + "M", "-jar", path.getAbsolutePath() + File.separator + "mc.jar", "nogui");
+            pbuilder = new ProcessBuilder("java", "-Xmx" + memory + "M", "-jar", path.getAbsolutePath() + File.separator + "mc.jar");//, "nogui");
         }
 
         pbuilder.redirectErrorStream(true);
@@ -58,7 +59,7 @@ public class Gameserver_Process {
             process = pbuilder.start();
             
         } catch (IOException ex) {
-            System.out.println("Failed to start server on port " + port + ": " + ex.getMessage());
+            Notifier.print("Failed to start server on port " + port + ": " + ex.getMessage());
         }
         
         return process;

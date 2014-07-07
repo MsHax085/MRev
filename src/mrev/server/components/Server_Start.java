@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mrev.Notifier;
+import mrev.server.ServerListener;
 import mrev.server.database.DatabaseHandler;
 import mrev.server.gameserver.Gameserver;
 import org.apache.commons.io.FileUtils;
@@ -47,7 +49,11 @@ public class Server_Start {
                 final ResultSet rs2 = ps2.executeQuery();
                 
                 if (rs2.next()) {
-                    startServer(db, rs2);
+                    if (startServer(db, rs2)) {
+                        Notifier.print("Started server on port: " + port);
+                    } else {
+                        Notifier.print("Failed to start server on port: " + port);
+                    }
                 }
                 
                 rs2.close();
@@ -60,6 +66,7 @@ public class Server_Start {
             
         } catch (SQLException ex) {
             Logger.getLogger(Server_Start.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
         
         return true;
@@ -116,8 +123,9 @@ public class Server_Start {
         
         createLogTable(db, port);
         
-        final Gameserver sm = new Gameserver(port, jar, memory);
+        final Gameserver gameserver = new Gameserver(port, jar, memory);
         
+        ServerListener.server_processes.addGameserver(port, gameserver);
         updateServerStatusAndOnCoreRestart(db, true, false, port);
         
         return true;
@@ -141,19 +149,26 @@ public class Server_Start {
      * @param db The database reference
      * @param online If the server is online
      * @param online_on_restart If the server shall start on restart
-     * @param port The server port
-     * @throws SQLException 
+     * @param port The server port 
+     * @return If operation was successfull
      */
-    public void updateServerStatusAndOnCoreRestart(DatabaseHandler db, boolean online, boolean online_on_restart, int port) throws SQLException {
+    public boolean updateServerStatusAndOnCoreRestart(DatabaseHandler db, boolean online, boolean online_on_restart, int port) {
         
-        final PreparedStatement ps = db.getMainConnection().prepareStatement("UPDATE gameservers_status SET online = ?, online_on_restart = ? WHERE server_port = ?");
-        ps.setBoolean(1, online);
-        ps.setBoolean(2, online_on_restart);
-        ps.setInt(3, port);
+        try {
+            
+            final PreparedStatement ps = db.getMainConnection().prepareStatement("UPDATE gameservers_status SET online = ?, online_on_restart = ? WHERE server_port = ?");
+            ps.setBoolean(1, online);
+            ps.setBoolean(2, online_on_restart);
+            ps.setInt(3, port);
+            
+            ps.executeUpdate();
+            ps.close();
+            
+        } catch (SQLException ex) {
+            return false;
+        }
         
-        ps.executeUpdate();
-        ps.close();
-        
+        return true;
     }
     
     /**
@@ -166,7 +181,7 @@ public class Server_Start {
      */
     private void setServerSettings(ResultSet rs, String jar, int port) throws IOException, SQLException {
         
-        final String dir = "servers/" + port + "/";
+        final String dir = "servers/server_" + port + "/";
         
         // Create files
         createProperyFile(dir);

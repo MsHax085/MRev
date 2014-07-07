@@ -3,6 +3,7 @@ package mrev.server.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import mrev.Notifier;
 
 /**
  * The DatabaseHandler class handle the MySQL database connections. Access to each
@@ -22,7 +23,7 @@ public class DatabaseHandler {
     private final String MAIN_DATABASE = "revision";
     private final String LOG_DATABASE = "revision_logs";
     private final String USER = "root";
-    private final String PASS = "1";
+    private final String PASS = "";
     
     private Connection main_conn = null;
     private Connection log_conn = null;
@@ -38,21 +39,21 @@ public class DatabaseHandler {
             
             Class.forName("com.mysql.jdbc.Driver");
             
-            System.out.println("MySQL JDBC Driver Registred!");
+            Notifier.print("MySQL JDBC Driver Registred!");
             
             DriverManager.setLoginTimeout(5);
             main_conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + MAIN_DATABASE, USER, PASS);
             log_conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + LOG_DATABASE, USER, PASS);
             
             if (main_conn != null && log_conn != null) {
-                System.out.println("MySQL Connection Established!");
+                Notifier.print("MySQL Connection Established!");
                 
             } else {
-                System.out.println("Failed to Establish MySQL Connection!");
+                Notifier.print("Failed to Establish MySQL Connection!");
             }
             
         } catch (SQLException | ClassNotFoundException ex) {
-            System.out.println("Failed to Establish MySQL Connection: " + ex.getMessage());
+            Notifier.print("Failed to Establish MySQL Connection: " + ex.getMessage());
         }
     }
     
@@ -61,7 +62,7 @@ public class DatabaseHandler {
      */
     public void close() {
         
-        System.out.println("MySQL Connection Closing!");
+        Notifier.print("MySQL Connection Closing!");
         
         try {
             if (isMainConnectionOpen()) {
@@ -72,10 +73,10 @@ public class DatabaseHandler {
                 log_conn.close();
             }
         } catch (SQLException ex) {
-            System.out.println("Failed to Close MySQL Connection: " + ex.getMessage());
+            Notifier.print("Failed to Close MySQL Connection: " + ex.getMessage());
         }
         
-        System.out.println("MySQL Connection Closed!");
+        Notifier.print("MySQL Connection Closed!");
     }
     
     /**
@@ -87,7 +88,7 @@ public class DatabaseHandler {
         int retries = 0;
         while (!isConnectionOpen()) {
             
-            System.out.println("Retrying Connection ...");
+            Notifier.print("Retrying Connection ...");
             
             close();
             open();
@@ -128,7 +129,7 @@ public class DatabaseHandler {
         try {
             return isMainConnectionOpen() && isLogConnectionOpen();
         } catch (SQLException ex) {
-            System.out.println("Failed to check connection: " + ex.getMessage());
+            Notifier.print("Failed to check connection: " + ex.getMessage());
         }
         return false;
     }

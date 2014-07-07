@@ -32,6 +32,14 @@ public class Server_Processes {
     }
     
     /**
+     * This method verifies if there are any stopped gameservers.
+     * @return boolean If there are any stopped gameservers.
+     */
+    public boolean isExistingStoppedGameservers() {
+        return !stopped_gameservers.isEmpty();
+    }
+    
+    /**
      * This method verifies if there is an existing/running gameservers by a
      * given port.
      * @param port The server port to be verified.
@@ -52,11 +60,36 @@ public class Server_Processes {
     }
     
     /**
+     * This method returns a reference to the Gameserver by the given port
+     * @param port The server port
+     * @return The Gameserver reference
+     */
+    public Gameserver getGameserver(int port) {
+        return gameservers.get(port);
+    }
+    
+    /**
      * This method returns a reference to the set of existing/running gameservers.
      * @return Set<Entry<Integer, Gameserver>> The set of existing/running gameservers.
      */
     public Set<Entry<Integer, Gameserver>> getSetOfGameservers() {
         return gameservers.entrySet();
+    }
+    
+    /**
+     * This method returns a reference to the ArrayList of stopped gameservers.
+     * @return ArrayList<> The ArrayList of stopped gameservers.
+     */
+    public ArrayList<Integer> getStoppedGameservers() {
+        return stopped_gameservers;
+    }
+    
+    /**
+     * This method returns the number of existing/running gameservers.
+     * @return Integer The number of existing/running gameservers.
+     */
+    public int getNumberOfGameservers() {
+        return gameservers.size();
     }
     
     /**
@@ -83,7 +116,6 @@ public class Server_Processes {
      */
     public void removeGameserver(int port) {
         gameservers.remove(port);
-        stopped_gameservers.add(port);
     }
     
     /**
