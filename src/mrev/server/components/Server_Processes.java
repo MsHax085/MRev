@@ -119,14 +119,6 @@ public class Server_Processes {
     }
     
     /**
-     * This method removes a stopped gameserver, which is waiting to save final logs, from the list.
-     * @param port The server port.
-     */
-    public void removeStoppedGameserver(int port) {
-        stopped_gameservers.remove(port);
-    }
-    
-    /**
      * This method remove all stopped gameservers, which is waiting to save final logs, from the list.
      */
     public void removeStoppedGameservers() {

@@ -143,8 +143,14 @@ public class InputHandler extends ThreadClass {
     public void executeAfter() {
         
         if (!serverListener.isStopped()) {
+            
             Notifier.print("Stopping running server listener ...");
+            
             serverListener.stop();
+        }
+        
+        if (!serverListener.isFinished()) {
+            serverListener.join();
         }
         
         Notifier.print("Application has stopped!");

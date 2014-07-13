@@ -19,6 +19,7 @@ public class ThreadClass {
 
     private final AtomicBoolean stopped = new AtomicBoolean(true);
     private final AtomicBoolean stopping = new AtomicBoolean(false);
+    private final AtomicBoolean finished = new AtomicBoolean(false);
     
     private long readTime = 0;
     
@@ -26,7 +27,7 @@ public class ThreadClass {
     
     /**
      * This method verifies if the thread is stopped.
-     * @return boolean If the thread is stopped.
+     * @return If the thread is stopped.
      */
     public boolean isStopped() {
         return stopped.get();
@@ -35,10 +36,18 @@ public class ThreadClass {
     /**
      * This method verifies if the thread is stopping, running it's last
      * loop before beeing stopped.
-     * @return boolean If the thread is stopping.
+     * @return If the thread is stopping.
      */
     public boolean isStopping() {
         return stopping.get();
+    }
+    
+    /**
+     * This method verifies if the thread is finished.
+     * @return If the thread has finished.
+     */
+    public boolean isFinished() {
+        return finished.get();
     }
     
     /**
@@ -71,6 +80,8 @@ public class ThreadClass {
         stopping.set(false);
         
         executeAfter();
+        
+        finished.set(true);
     }
     
     /**

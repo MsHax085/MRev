@@ -1,16 +1,71 @@
-[21:25:20] [Server thread/INFO]: Starting minecraft server version 1.7.9
-[21:25:20] [Server thread/WARN]: To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
-[21:25:20] [Server thread/INFO]: Loading properties
-[21:25:20] [Server thread/INFO]: Default game type: SURVIVAL
-[21:25:20] [Server thread/INFO]: Generating keypair
-[21:25:21] [Server thread/INFO]: Starting Minecraft server on 127.0.0.1:25565
-[21:25:21] [Server thread/INFO]: Preparing level "world"
-[21:25:21] [Server thread/INFO]: Preparing start region for level 0
-[21:25:21] [Server thread/INFO]: Done (0,808s)! For help, type "help" or "?"
-[21:25:28] [Server thread/INFO]: Stopping the server
-[21:25:28] [Server thread/INFO]: Stopping server
-[21:25:28] [Server thread/INFO]: Saving players
-[21:25:28] [Server thread/INFO]: Saving worlds
-[21:25:28] [Server thread/INFO]: Saving chunks for level 'world'/Overworld
-[21:25:28] [Server thread/INFO]: Saving chunks for level 'world'/Nether
-[21:25:28] [Server thread/INFO]: Saving chunks for level 'world'/The End
+[00:57:49] [Server thread/INFO]: Starting minecraft server version 1.7.9
+[00:57:49] [Server thread/WARN]: To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+[00:57:49] [Server thread/INFO]: Loading properties
+[00:57:49] [Server thread/INFO]: Default game type: SURVIVAL
+[00:57:49] [Server thread/INFO]: Generating keypair
+[00:57:49] [Server thread/INFO]: Starting Minecraft server on 127.0.0.1:25565
+[00:57:49] [Server thread/WARN]: Failed to load user banlist: 
+java.io.FileNotFoundException: banned-players.json (Det går inte att hitta filen)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.8.0_05]
+	at java.io.FileInputStream.<init>(Unknown Source) ~[?:1.8.0_05]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[mc.jar:?]
+	at ol.g(SourceFile:124) ~[mc.jar:?]
+	at lr.y(SourceFile:99) [mc.jar:?]
+	at lr.<init>(SourceFile:25) [mc.jar:?]
+	at ls.e(SourceFile:160) [mc.jar:?]
+	at net.minecraft.server.MinecraftServer.run(SourceFile:339) [mc.jar:?]
+	at li.run(SourceFile:628) [mc.jar:?]
+[00:57:49] [Server thread/WARN]: Failed to load ip banlist: 
+java.io.FileNotFoundException: banned-ips.json (Det går inte att hitta filen)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.8.0_05]
+	at java.io.FileInputStream.<init>(Unknown Source) ~[?:1.8.0_05]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[mc.jar:?]
+	at ol.g(SourceFile:124) ~[mc.jar:?]
+	at lr.x(SourceFile:91) [mc.jar:?]
+	at lr.<init>(SourceFile:27) [mc.jar:?]
+	at ls.e(SourceFile:160) [mc.jar:?]
+	at net.minecraft.server.MinecraftServer.run(SourceFile:339) [mc.jar:?]
+	at li.run(SourceFile:628) [mc.jar:?]
+[00:57:49] [Server thread/WARN]: Failed to load operators list: 
+java.io.FileNotFoundException: ops.json (Det går inte att hitta filen)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.8.0_05]
+	at java.io.FileInputStream.<init>(Unknown Source) ~[?:1.8.0_05]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[mc.jar:?]
+	at ol.g(SourceFile:124) ~[mc.jar:?]
+	at lr.z(SourceFile:107) [mc.jar:?]
+	at lr.<init>(SourceFile:29) [mc.jar:?]
+	at ls.e(SourceFile:160) [mc.jar:?]
+	at net.minecraft.server.MinecraftServer.run(SourceFile:339) [mc.jar:?]
+	at li.run(SourceFile:628) [mc.jar:?]
+[00:57:49] [Server thread/WARN]: Failed to load white-list: 
+java.io.FileNotFoundException: whitelist.json (Det går inte att hitta filen)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.8.0_05]
+	at java.io.FileInputStream.<init>(Unknown Source) ~[?:1.8.0_05]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[mc.jar:?]
+	at ol.g(SourceFile:124) ~[mc.jar:?]
+	at lr.B(SourceFile:123) [mc.jar:?]
+	at lr.<init>(SourceFile:30) [mc.jar:?]
+	at ls.e(SourceFile:160) [mc.jar:?]
+	at net.minecraft.server.MinecraftServer.run(SourceFile:339) [mc.jar:?]
+	at li.run(SourceFile:628) [mc.jar:?]
+[00:57:49] [Server thread/INFO]: Preparing level "world"
+[00:57:50] [Server thread/WARN]: Unable to find spawn biome
+[00:57:50] [Server thread/INFO]: Preparing start region for level 0
+[00:57:51] [Server thread/INFO]: Preparing spawn area: 12%
+[00:57:52] [Server thread/INFO]: Preparing spawn area: 27%
+[00:57:53] [Server thread/INFO]: Preparing spawn area: 43%
+[00:57:54] [Server thread/INFO]: Preparing spawn area: 60%
+[00:57:55] [Server thread/INFO]: Preparing spawn area: 76%
+[00:57:56] [Server thread/INFO]: Preparing spawn area: 91%
+[00:57:57] [Server thread/INFO]: Done (7,307s)! For help, type "help" or "?"
+[00:57:59] [Server thread/INFO]: [Server] hello!
+[00:58:11] [Server thread/INFO]: That player cannot be found
+[00:58:19] [Server thread/INFO]: Stopping the server
+[00:58:19] [Server thread/INFO]: Stopping server
+[00:58:19] [Server thread/INFO]: Saving players
+[00:58:19] [Server thread/INFO]: Saving worlds
+[00:58:19] [Server thread/INFO]: Saving chunks for level 'world'/Overworld
+[00:58:19] [Server thread/INFO]: Saving chunks for level 'world'/Nether
+[00:58:19] [Server thread/INFO]: Saving chunks for level 'world'/The End
+[00:58:20] [Server Shutdown Thread/INFO]: Stopping server
+[00:58:20] [Server Shutdown Thread/INFO]: Saving players

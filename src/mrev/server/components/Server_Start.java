@@ -3,6 +3,7 @@ package mrev.server.components;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,23 +78,29 @@ public class Server_Start {
      * @param db The database reference.
      * @param port The server port.
      * @return boolean If the server was started.
-     * @throws SQLException 
      */
-    public boolean startServer(DatabaseHandler db, int port) throws SQLException {
-        
-        final PreparedStatement ps = db.getMainConnection().prepareStatement("SELECT * FROM gameservers_settings WHERE server_port = ?");
-        
-        ps.setInt(1, port);
+    public boolean startServer(DatabaseHandler db, int port) {
         
         boolean started = false;
-        final ResultSet rs = ps.executeQuery();
         
-        if (rs.next()) {
-            started = startServer(db, rs);
+        try {
+            
+            final PreparedStatement ps = db.getMainConnection().prepareStatement("SELECT * FROM gameservers_settings WHERE server_port = ?");
+            
+            ps.setInt(1, port);
+            
+            final ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                started = startServer(db, rs);
+            }
+            
+            rs.close();
+            ps.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Server_Start.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        rs.close();
-        ps.close();
         
         return started;
     }
@@ -189,6 +196,7 @@ public class Server_Start {
         
         // Set properties
         final Properties p = new Properties();
+        final OutputStream output = new FileOutputStream(dir + "server.properties");
         
         p.setProperty("allow-flight", "" + rs.getBoolean("flight"));
         p.setProperty("allow-nether", "" + rs.getBoolean("nether"));
@@ -227,7 +235,8 @@ public class Server_Start {
         p.setProperty("view-distance", "" + rs.getInt("view_dist"));
         p.setProperty("white-list", "" + rs.getBoolean("whitelist"));
         
-        p.store(new FileOutputStream(dir + "server.properties"), null);
+        p.store(output, null);
+        output.close();
     }
     
     /**

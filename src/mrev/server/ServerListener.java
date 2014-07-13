@@ -25,11 +25,13 @@ public class ServerListener extends ThreadClass implements Runnable {
     
     // -------------------------------------------------------------------------
     
+    private Thread thread;
+    
     private final DatabaseHandler db = new DatabaseHandler();
     
     public static final Server_Processes server_processes = new Server_Processes();
     
-    private final Server_Start server_start = new Server_Start();
+    public static final Server_Start server_start = new Server_Start();
     private final Server_Executor server_executor = new Server_Executor();
     
     // -------------------------------------------------------------------------
@@ -39,7 +41,7 @@ public class ServerListener extends ThreadClass implements Runnable {
      * because TheadClass will only run in the thread it was called from.
      */
     public void startListening() {
-        final Thread thread = new Thread(this);
+        thread = new Thread(this);
         thread.start();
     }
 
@@ -50,6 +52,20 @@ public class ServerListener extends ThreadClass implements Runnable {
     @Override
     public void run() {
         super.start();
+    }
+    
+    /**
+     * This method joins the server listener thread.
+     */
+    public void join() {
+        
+        try {
+            
+            thread.join(0);
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ServerListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -78,9 +94,11 @@ public class ServerListener extends ThreadClass implements Runnable {
             Notifier.print("Failed to clear waiting commands!");
         }
         
+        Notifier.print("Attempting to start waiting servers ...");
+        
         // Start waiting servers
         if (server_start.startServers(db)) {
-            Notifier.print("Sucessfully started waiting servers (" + server_processes.getNumberOfGameservers() + ")!");
+            Notifier.print("Successfully started waiting servers (" + server_processes.getNumberOfGameservers() + ")!");
         } else {
             Notifier.print("Failed to start waiting servers!");
         }
@@ -94,8 +112,6 @@ public class ServerListener extends ThreadClass implements Runnable {
      * 
      * In this thread the executeWhile method handle the command input from
      * the database and save gameserver data/log to the database log.
-     * 
-     * NOTE: Verify database connection!
      */
     @Override
     public void executeWhile() {
@@ -109,7 +125,7 @@ public class ServerListener extends ThreadClass implements Runnable {
         
         // Execute commands
         if (useDb) {
-            server_executor.execute();
+            server_executor.executeCommands(db);
         }
         
         // Update logs and flag finished servers
